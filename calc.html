@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Afacad:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="calculator">
+        <div id="screen">
+            <input id="last-action" readonly>
+            <input id="result" readonly>
+        </div>
+        <div id="numpad">
+            <div class="clears">
+                <button id="clear" onclick="allClear()">AC</button>
+                <button id="clear" onclick="delEntry()">DEL</button>
+            </div>
+            <div class="numbers">
+                    <button class ="number" id="7" onclick="clickNum(this)">7</button>
+                    <button class ="number" id="8" onclick="clickNum(this)">8</button>
+                    <button class ="number" id="9" onclick="clickNum(this)">9</button>
+                    
+                    <button class ="number" id="4" onclick="clickNum(this)">4</button>
+                    <button class ="number" id="5" onclick="clickNum(this)">5</button>
+                    <button class ="number" id="6" onclick="clickNum(this)">6</button>
+                    
+                    <button class ="number" id="1" onclick="clickNum(this)">1</button>
+                    <button class ="number" id="2" onclick="clickNum(this)">2</button>
+                    <button class ="number" id="3" onclick="clickNum(this)">3</button>
+
+                    <button class ="number" id="0" onclick="clickNum(this)">0</button>
+                    <button class ="number" id="." onclick="clickNum(this)">.</button>
+                    <button class ="equal" id="=" onclick="calcEx()">=</button>
+            </div>
+            <div class="operations">
+                <button onclick="clickOp('/')">/</button>
+                <button onclick="clickOp('*')">*</button>
+                <button onclick="clickOp('-')">-</button>
+                <button onclick="clickOp('+')">+</button>
+            </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
