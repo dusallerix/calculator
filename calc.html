@@ -16,11 +16,29 @@
             <input id="result" readonly>
         </div>
         <div id="numpad">
-            <div class="clears">
-                <button id="clear" onclick="allClear()">AC</button>
-                <button id="clear" onclick="delEntry()">DEL</button>
+            <div class="column">
+                <div class="clears">
+                    <button id="clear" onclick="AllClear()">AC</button>
+                    <button id="clear" onclick="ClearEntry()">CE</button>
+                </div>
+                <div class="math-func">
+                    <button>sin</button>
+                    <button>x<sup>y</sup></button>
+                    <button>cos</button>
+                    <button>&Sqrt;</button>
+                    <button>tan</button>
+                    <button><sup>x</sup>&Sqrt;</button>
+                    <button>&pi;</button>
+                    <button>x!</button>
+                </div>
             </div>
-            <div class="numbers">
+            <div class="column">
+                <div class ="add-func">
+                    <button>(</button>
+                    <button>)</button>
+                    <button>%</button>
+                </div>
+                <div class="numbers">
                     <button class ="number" id="7" onclick="clickNum(this)">7</button>
                     <button class ="number" id="8" onclick="clickNum(this)">8</button>
                     <button class ="number" id="9" onclick="clickNum(this)">9</button>
@@ -36,12 +54,18 @@
                     <button class ="number" id="0" onclick="clickNum(this)">0</button>
                     <button class ="number" id="." onclick="clickNum(this)">.</button>
                     <button class ="equal" id="=" onclick="calcEx()">=</button>
+                </div>
             </div>
-            <div class="operations">
-                <button onclick="clickOp('/')">/</button>
-                <button onclick="clickOp('*')">*</button>
-                <button onclick="clickOp('-')">-</button>
-                <button onclick="clickOp('+')">+</button>
+            <div class="column">
+                <div class ="backspace">
+                    <button id="del" onclick="del()">&larr;</button>
+                </div>
+                <div class="operations">
+                    <button onclick="clickOp('+')">&plus;</button>
+                    <button onclick="clickOp('-')">&minus;</button>
+                    <button onclick="clickOp('*')">&times;</button>
+                    <button onclick="clickOp('/')">&divide;</button>
+                </div>
             </div>
     </div>
 

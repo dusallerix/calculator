@@ -1,6 +1,6 @@
 const result = document.querySelector('#result'),
-        number = document.querySelectorAll('.number:not(.equal)'),
-        expression = document.querySelector('#last-action');
+    number = document.querySelectorAll('.number:not(.equal)'),
+    expression = document.querySelector('#last-action');
 
 const pi = Math.PI;
 const e = Math.round(Math.E, 3);
@@ -8,21 +8,7 @@ const e = Math.round(Math.E, 3);
 let ex='';
 result.value = '0';
 
-//очистить все поля
-function allClear() {
-    result.value = '0';
-    expression.value = '';
-    ex = '';
-}
-
-function clearEntry() {
-    result.value = '0';
-    //последний символ
-    let lastChar = ex.slice(-1);
-
-}
-
-//click on numbers
+//ввод числа
 function clickNum(btn) { // when we click on a number
     if(!ex || typeof(ex) === 'number' || ex === 0) {
         expression.value = btn.id
@@ -32,14 +18,16 @@ function clickNum(btn) { // when we click on a number
         ex += btn.id;
     }
     result.value = ex.split(/\/|\*|\+|-|=/).pop();
-    
+    checkLength(result.value)
 };
 
+//ввод оператора
 function clickOp(op) {
     //возможность поставить минус в начале
     if (!ex) {
         if (op === '-') {
-            ex = '-';
+            expression.value += '-';
+            ex += '-';
             result.value = ex;
         }
         return;
@@ -68,6 +56,7 @@ function clickOp(op) {
     result.value = op;
 }
 
+//подсчёт
 function calcEx() {
     if(!ex) return;
 
@@ -79,7 +68,15 @@ function calcEx() {
 
 }
 
-function delEntry() {
+//очистить все поля
+function AllClear() {
+    result.value = '0';
+    expression.value = '';
+    ex = '';
+}
+
+//очистить последнее введенное число/оператор
+function ClearEntry() {
     let entryNum = ex.split(/\/|\*|\+|-|=/).pop()
     let entryOp = ex.slice(-1);
     //если последнее введенное данное является числом
@@ -91,6 +88,21 @@ function delEntry() {
         expression.value = ex;
     }
     result.value = '0';
+}
+
+//удаление по одному символу
+function del(){
+    ex = ex.slice(0, -1);
+    expression.value = ex;
+    result.value = ex.split(/\/|\*|\+|-|=/).pop();
+}
+
+//ограничение ввода числа до 14 символов
+function checkLength(arg) {
+  if (arg.toString().length > 14) {
+    expression.value = 'press CE to return';
+    result.value = 'number too long'.toUpperCase();
+  } 
 }
 
 
