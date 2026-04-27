@@ -1,21 +1,35 @@
+import { MathLib } from "./MathLib.js"
+
+window.clickNum = clickNum;
+window.clickOp = clickOp;
+window.calcEx = calcEx;
+window.AllClear = AllClear;
+window.ClearEntry = ClearEntry;
+window.del = del;
+
 const result = document.querySelector('#result'),
     number = document.querySelectorAll('.number:not(.equal)'),
     expression = document.querySelector('#last-action');
 
-const pi = Math.PI;
-const e = Math.round(Math.E, 3);
+const pi = Math.round(Math.PI*100)/100;
+const calc = new MathLib();
 
 let ex='';
+let justEvaluated = false;
 result.value = '0';
 
 //ввод числа
 function clickNum(btn) { // when we click on a number
-    if(!ex || typeof(ex) === 'number' || ex === 0) {
+    if(!ex || ex == 0) {
         expression.value = btn.id
         ex = btn.id;
     } else {
-        expression.value += btn.id
-        ex += btn.id;
+        //не позволяем больше одной точки в введенном числе
+        if (btn.id == '.' && /\./.test(result.value)) return;
+        else {
+            expression.value += btn.id
+            ex += btn.id;
+        }
     }
     result.value = ex.split(/\/|\*|\+|-|=/).pop();
     checkLength(result.value)
@@ -23,8 +37,16 @@ function clickNum(btn) { // when we click on a number
 
 //ввод оператора
 function clickOp(op) {
+    let lastChar = Array.from(ex).slice(-1);
+
+    //начинаем новое выражение с результатом прошлого вычисления
+    if (justEvaluated) {
+        expression.value = ex;
+        justEvaluated = false;
+    }
+
     //возможность поставить минус в начале
-    if (!ex) {
+    if(!ex) {
         if (op === '-') {
             expression.value += '-';
             ex += '-';
@@ -33,19 +55,18 @@ function clickOp(op) {
         return;
     }
 
-    let lastChar = ex.slice(-1);
-
     // если последний символ является оператором
-    if (/[\+\-\*\/]/.test(lastChar)) {
+    if(/[\+\-\*\/]/.test(lastChar)) {
         // разрешаем ставить минус в начале числа и не допускаем больше одного '-'
-        if (op === '-' && lastChar != '-') {
+        if(op === '-' && lastChar != '-') {
             expression.value += op;
             ex += op; // например: 5*-
         } else {
-            // заменяем оператор
-            if (lastChar === '-' && /[\+\-\*\/]/.test(ex.slice(-2, -1))) {
+            //не допускаем повторных символов
+            if(lastChar == '-' && /[\+\-\*\/]/.test(ex.slice(-2, -1))) {
                 return
             }
+            // заменяем оператор
             expression.value = ex.slice(0, -1) + op;
             ex = ex.slice(0, -1) + op;
         }
@@ -58,14 +79,17 @@ function clickOp(op) {
 
 //подсчёт
 function calcEx() {
-    if(!ex) return;
+    if (!ex) return;
 
-    if(ex.slice(-1) != '=') {
-        ex = eval(ex);
-        expression.value += '=';
-        result.value = ex;
+    if (!justEvaluated) {
+        let res = calc.evalRPN(ex);
+
+        expression.value = ex + "=";
+        result.value = res;
+
+        ex = res;
+        justEvaluated = true;
     }
-
 }
 
 //очистить все поля
@@ -99,7 +123,7 @@ function del(){
 
 //ограничение ввода числа до 14 символов
 function checkLength(arg) {
-  if (arg.toString().length > 14) {
+  if(arg.toString().length > 14) {
     expression.value = 'press CE to return';
     result.value = 'number too long'.toUpperCase();
   } 
