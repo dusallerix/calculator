@@ -150,9 +150,9 @@ export class MathLib {
         }
 
         if (stack.length != 1) {
-            throw new Error("Ошибка вычисления");
+            return "Error";
         }
-        stack = stack.toString()
+        stack = Math.round(stack * 10000)/10000;
         console.log(stack)
         return stack;
     }
@@ -166,6 +166,6 @@ export class MathLib {
         }
         return res;
     }
-
-    
 }
+
+

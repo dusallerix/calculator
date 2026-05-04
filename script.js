@@ -2,6 +2,7 @@ import { MathLib } from "./MathLib.js"
 
 window.clickNum = clickNum;
 window.clickOp = clickOp;
+window.clickFunc = clickFunc;
 window.calcEx = calcEx;
 window.AllClear = AllClear;
 window.ClearEntry = ClearEntry;
@@ -19,19 +20,29 @@ let justEvaluated = false;
 result.value = '0';
 
 //ввод числа
-function clickNum(btn) { // when we click on a number
+function clickNum(btn) {
     if(!ex || ex == 0) {
-        expression.value = btn.id
-        ex = btn.id;
+        if(btn.id == 'pi'){
+            expression.value = pi
+            ex = pi
+        } else {
+            expression.value = btn.id
+            ex = btn.id;
+        }
     } else {
         //не позволяем больше одной точки в введенном числе
         if (btn.id == '.' && /\./.test(result.value)) return;
         else {
-            expression.value += btn.id
-            ex += btn.id;
+            if(btn.id == 'pi'){
+                expression.value += pi
+                ex += pi
+            } else {
+                expression.value += btn.id
+                ex += btn.id;
+            }
         }
     }
-    result.value = ex.split(/\/|\*|\+|-|=/).pop();
+    result.value = ex.split(/[\/\*\+\-\=]/).pop();
     checkLength(result.value)
 };
 
@@ -75,6 +86,55 @@ function clickOp(op) {
         ex += op;
     }
     result.value = op;
+}
+
+//ввод функции
+function clickFunc(func) {
+    if (justEvaluated) {
+        expression.value = '';
+        ex = '';
+        justEvaluated = false;
+    }
+
+    switch (func) {
+        // тригонометрия
+        case 'sin':
+        case 'cos':
+        case 'tan':
+            expression.value += func;
+            ex += func;
+            break;
+
+        // квадратный корень
+        case 'sqrt':
+            expression.value += '√';
+            ex += '√';
+            break;
+        case 'root':
+            expression.value += '√';
+            ex += 'root';
+            break;
+
+        // факториал (постфиксный!)
+        case 'fact':
+            if (!/[0-9)]$/.test(ex)) return;
+            expression.value += '!';
+            ex += '!';
+            break;
+
+        // степень
+        case 'pow':
+            expression.value += '^';
+            ex += '^';
+            break;
+
+        // число π
+        case 'pi':
+            expression.value += pi;
+            ex += pi;
+            result.value = pi;
+            break;
+    }
 }
 
 //подсчёт

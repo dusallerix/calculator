@@ -22,21 +22,21 @@
                     <button id="clear" onclick="ClearEntry()">CE</button>
                 </div>
                 <div class="math-func">
-                    <button>sin</button>
-                    <button>x<sup>y</sup></button>
-                    <button>cos</button>
-                    <button>&Sqrt;</button>
-                    <button>tan</button>
-                    <button><sup>x</sup>&Sqrt;</button>
-                    <button>&pi;</button>
-                    <button>x!</button>
+                    <button onclick="clickFunc('sin')">sin</button>
+                    <button onclick="clickFunc('pow')">x<sup>y</sup></button>
+                    <button onclick="clickFunc('cos')">cos</button>
+                    <button onclick="clickFunc('sqrt')">&Sqrt;</button>
+                    <button onclick="clickFunc('tan')">tan</button>
+                    <button onclick="clickFunc('root')"><sup>x</sup>&Sqrt;</button>
+                    <button class ="number" id="pi" onclick="clickNum(this)">&pi;</button>
+                    <button onclick="clickFunc('fact')">x!</button>
                 </div>
             </div>
             <div class="column">
                 <div class ="add-func">
-                    <button>(</button>
-                    <button>)</button>
-                    <button>%</button>
+                    <button class ="number" id="(" onclick="clickNum(this)">(</button>
+                    <button class ="number" id=")" onclick="clickNum(this)">)</button>
+                    <button class ="number" id="." onclick="clickNum(this)">.</button>
                 </div>
                 <div class="numbers">
                     <button class ="number" id="7" onclick="clickNum(this)">7</button>
@@ -52,7 +52,6 @@
                     <button class ="number" id="3" onclick="clickNum(this)">3</button>
 
                     <button class ="number" id="0" onclick="clickNum(this)">0</button>
-                    <button class ="number" id="." onclick="clickNum(this)">.</button>
                     <button class ="equal" id="=" onclick="calcEx()">=</button>
                 </div>
             </div>
