@@ -53,6 +53,9 @@ export class MathLib {
                     stack.length > 0 &&
                     stack[stack.length - 1] !== '(' &&
                     (
+                        // функция наверху стека (sin/cos/tan) — выталкивается всегда,
+                        // т.к. имеет наивысший приоритет
+                        stack[stack.length - 1] in this.func ||
                         (this.ops[op].assoc == 'L' &&
                         this.ops[stack[stack.length - 1]].prior >= this.ops[op].prior) ||
                         (this.ops[op].assoc == 'R' &&
@@ -167,5 +170,3 @@ export class MathLib {
         return res;
     }
 }
-
-

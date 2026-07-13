@@ -42,7 +42,7 @@ function clickNum(btn) {
             }
         }
     }
-    result.value = ex.split(/[\/\*\+\-\=]/).pop();
+    result.value = ex.split(/[\/\*\+\-\=\(]/).pop();
     checkLength(result.value)
 };
 
@@ -97,38 +97,40 @@ function clickFunc(func) {
     }
 
     switch (func) {
-        // тригонометрия
+        //тригонометрия (сразу открываем скобку под аргумент)
         case 'sin':
         case 'cos':
         case 'tan':
-            expression.value += func;
-            ex += func;
+            expression.value += func + '(';
+            ex += func + '(';
+            result.value = '0';
             break;
 
-        // квадратный корень
+        //квадратный корень (тоже сразу открываем скобку)
         case 'sqrt':
-            expression.value += '√';
-            ex += '√';
+            expression.value += '√(';
+            ex += '√(';
+            result.value = '0';
             break;
         case 'root':
             expression.value += '√';
             ex += 'root';
             break;
 
-        // факториал (постфиксный!)
+        //факториал(постфиксный!)
         case 'fact':
             if (!/[0-9)]$/.test(ex)) return;
             expression.value += '!';
             ex += '!';
             break;
 
-        // степень
+        //степень
         case 'pow':
             expression.value += '^';
             ex += '^';
             break;
 
-        // число π
+        //число π
         case 'pi':
             expression.value += pi;
             ex += pi;
@@ -161,7 +163,16 @@ function AllClear() {
 
 //очистить последнее введенное число/оператор
 function ClearEntry() {
-    let entryNum = ex.split(/\/|\*|\+|-|=/).pop()
+    //если в конце висит "sin(" / "cos(" / "tan(" / "√(" без введенного числа - стираем целиком
+    const funcTail = /(sin|cos|tan|√)\($/;
+    if (funcTail.test(ex)) {
+        ex = ex.replace(funcTail, '');
+        expression.value = ex;
+        result.value = '0';
+        return;
+    }
+
+    let entryNum = ex.split(/\/|\*|\+|-|=|\(/).pop()
     let entryOp = ex.slice(-1);
     //если последнее введенное данное является числом
     if(!ex || !/[\+\-\*\/]/.test(entryOp)) {
@@ -178,7 +189,7 @@ function ClearEntry() {
 function del(){
     ex = ex.slice(0, -1);
     expression.value = ex;
-    result.value = ex.split(/\/|\*|\+|-|=/).pop();
+    result.value = ex.split(/\/|\*|\+|-|=|\(/).pop();
 }
 
 //ограничение ввода числа до 14 символов
@@ -188,5 +199,3 @@ function checkLength(arg) {
     result.value = 'number too long'.toUpperCase();
   } 
 }
-
-
